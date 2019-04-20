@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <View
+        android:id="@+id/calendar_edit_bar_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_value_3"
+        android:background="@drawable/view_top_shadow" />
+    <RelativeLayout
+        android:id="@+id/RL_calendar_edit_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_value_44"
+        android:background="@color/color_EF7265"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="202dp">
+        <TextView
+            android:layout_marginLeft="38dp"
+            android:id="@+id/TV_entries_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="Be Happy!"
+            android:textColor="@android:color/white"
+            android:textSize="18dp" />
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

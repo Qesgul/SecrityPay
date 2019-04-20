@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dp_value_16">16dp</dimen>
+
+    <dimen name="dp_value_100">100dp</dimen>
+    <dimen name="dp_value_7">7dp</dimen>
+    <dimen name="dp_value_5">5dp</dimen>
+    <dimen name="dp_value_3">3dp</dimen>
+
+    <dimen name="dp_value_44">44dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="dp_value_1">1dp</dimen>
+    <dimen name="dp_value_70">70dp</dimen>
+
+    <!-- Settings -->
+    <dimen name="dp_value_10">10dp</dimen>
+    <dimen name="dp_value_20">20dp</dimen>
+</resources>
