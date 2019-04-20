@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:id="@+id/lin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/themeColor_mistuha"
+            android:padding="10dp">
+            <EditText
+                android:id="@+id/msg_goods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@android:color/white"
+                android:gravity="center"
+                android:hint="请输入商品信息"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/edittext_hint"
+                android:textSize="24dp" />
+            <EditText
+                android:id="@+id/msg_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@android:color/white"
+                android:gravity="center"
+                android:hint="请输入价格信息"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/edittext_hint"
+                android:textSize="24dp" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
+
+
+            <Button
+                android:id="@+id/btn_QRcore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/select_bg"
+                android:gravity="center"
+                android:text="生成"
+                android:textAllCaps="false"
+                android:textColor="@drawable/select_text"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <ImageView
+        android:layout_below="@+id/lin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_value_20"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/img_QRcore"/>
+</RelativeLayout>

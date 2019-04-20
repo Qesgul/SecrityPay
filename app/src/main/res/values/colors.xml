@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="color_EF7265">#EF7265</color>
+    <color name="color_B3371F">#B3371F</color>
+    <color name="color_FFF7F9FD">#FFF7F9FD</color>
+    <color name="color_000000">#000000</color>
+    <color name="themeColor_mistuha">#EF7265</color>
+    <color name="edittext_hint">#d4d2d4</color>
+    <color name="viewfinder_frame">#ff000000</color>
+    <color name="viewfinder_laser">#ffff0000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+    <color name="result_view">#b0000000</color>
+    <color name="color_FF999999">#FF999999</color>
+    <color name="color_FF666666">#FF666666</color>
+    <color name="color_FF595959">#FF595959</color>
+    <color name="color_FF444444">#FF444444</color>
+    <color name="color_FF333333">#FF333333</color>
+    <color name="color_FFFF942B">#FFFF942B</color>
+    <color name="color_FF35EF9D">#FF35EF9D</color>
+    <color name="color_FF28E390">#FF28E390</color>
+    <color name="color_FF63FAF2">#FF63FAF2</color>
+    <color name="color_FF42EAD6">#FF42EAD6</color>
+</resources>
