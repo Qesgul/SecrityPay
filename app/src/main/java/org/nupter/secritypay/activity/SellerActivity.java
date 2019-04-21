@@ -65,6 +65,7 @@ public class SellerActivity extends BaseActivity {
 			Message msg = new Message();
 			msg.setName(msg_goods.getText().toString());
             msg.setPrice(msg_price.getText().toString());
+            
 			SM2 x = new SM2();
 			SM2KeyPair keys = x.generateKeyPair();
 			if (flag) {
