@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import org.bouncycastle.math.ec.ECCurve;
 import org.nupter.secritypay.BaseActivity;
 import org.nupter.secritypay.R;
 
@@ -16,6 +17,7 @@ public class MainActivity extends BaseActivity {
     Button btn_seller;
     @BindView(R.id.user)
     Button btn_user;
+    private static ECCurve.Fp curve;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData(){
-
     }
 
     @Override
@@ -59,4 +60,5 @@ public class MainActivity extends BaseActivity {
             startActivity(intent);
         }
     }
+
 }

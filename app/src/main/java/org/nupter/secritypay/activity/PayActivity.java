@@ -1,12 +1,16 @@
 package org.nupter.secritypay.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.nupter.secritypay.BaseActivity;
 import org.nupter.secritypay.R;
+import org.nupter.secritypay.bean.Message;
 
 import butterknife.BindView;
 
@@ -38,6 +42,9 @@ public class PayActivity extends BaseActivity {
 
     @Override
     protected void initData(){
+        Intent intent = getIntent();
+        String msg = intent.getStringExtra("goodsInfo");
+        Message goodsInfo = new Gson().fromJson(msg,Message.class);
 		tv_name.setText(goodsInfo.getName());
 		tv_order_price.setText(goodsInfo.getPrice());
 		tv_pay_price.setText(goodsInfo.getPrice());

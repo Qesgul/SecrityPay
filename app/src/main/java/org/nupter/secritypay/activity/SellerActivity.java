@@ -16,6 +16,7 @@ import org.nupter.secritypay.Utils.Base64Utils;
 import org.nupter.secritypay.Utils.EncodingHandler;
 import org.nupter.secritypay.bean.Message;
 import org.nupter.secritypay.bean.SM2KeyPair;
+import org.nupter.secritypay.bean.SM2KeyString;
 import org.nupter.secritypay.crypto.SM2;
 
 import butterknife.BindView;
@@ -64,22 +65,29 @@ public class SellerActivity extends BaseActivity {
 			Message msg = new Message();
 			msg.setName(msg_goods.getText().toString());
             msg.setPrice(msg_price.getText().toString());
-			editor = preference.edit();
-			editor.putBoolean("firststart", true);
-			editor.commit();
-			if(!flag){
-				SM2 x = new SM2();
-				SM2KeyPair keys = x.generateKeyPair();
-				x.exportPrivateKey(keys.getPrivateKey(),savePath);
-				x.exportPublicKey(keys.getPublicKey(),savePath);
+			SM2 x = new SM2();
+			SM2KeyPair keys = x.generateKeyPair();
+			if (flag) {
+				saveKey(keys);
 			}
 			try {
-				byte[] nameText = sm2.encrypt(new Gson().toJson(msg),sm2KeyPair.getPublicKey());
-				Bitmap QRcore = EncodingHandler.createQRCode("size"+"#@%"+ Base64Utils.encode(nameText), 500);
+				Bitmap QRcore = EncodingHandler.createQRCode("size"+"#@%"+ Base64Utils.encode(x.encrypt(new Gson().toJson(msg),keys.getPublicKey())), 500);
+//				Bitmap QRcore = EncodingHandler.createQRCode("size"+"#@%"+ new Gson().toJson(msg), 500);
 				img_QRcore.setImageBitmap(QRcore);
 			} catch (WriterException e) {
 				e.printStackTrace();
 			}
 		}
     }
+    protected void saveKey (SM2KeyPair keys){
+		SM2KeyString sm2_str = new SM2KeyString();
+		sm2_str.setPublicKeyStr(Base64Utils.encode(keys.getPublicKey().getEncoded(false)));
+		sm2_str.setPrivateKeyStr(String.valueOf(keys.getPrivateKey()));
+		String keyString = new Gson().toJson(sm2_str);
+		editor = preference.edit();
+		//将登录标志位设置为false，下次登录时不在显示首次登录界面
+		editor.putBoolean("firststart", false);
+		editor.putString("Key", keyString);
+		editor.commit();
+	}
 }
