@@ -37,4 +37,5 @@ dependencies {
     implementation files('libs/zxing.jar')
     implementation files('libs/sun.misc.BASE64Decoder.jar')
     implementation files('libs/bcprov-jdk15on-1.56.jar')
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
 }

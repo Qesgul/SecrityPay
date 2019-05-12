@@ -1,6 +1,5 @@
 package org.nupter.secritypay.activity;
 
-import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
@@ -13,22 +12,17 @@ import android.view.SurfaceView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
 import org.nupter.secritypay.BaseActivity;
 import org.nupter.secritypay.R;
-import org.nupter.secritypay.Utils.Base64Utils;
-import org.nupter.secritypay.bean.SM2KeyString;
-import org.nupter.secritypay.crypto.SM2;
 import org.nupter.secritypay.zxing.camera.CameraManager;
 import org.nupter.secritypay.zxing.decoding.InactivityTimer;
 import org.nupter.secritypay.zxing.decoding.ScanActivityHandler;
 import org.nupter.secritypay.zxing.view.ViewfinderView;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.Vector;
 
 import butterknife.BindView;
@@ -112,23 +106,24 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
         if (resultString.equals("")||resultString.equals(null)) {
             Toast.makeText(ScanActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
         }else {
-            String []msg=resultString.split("#@%");//mingwen数组存储存储密文
-            if(msg[0].equals("size")){
-                SM2 x = new SM2();
-                BigInteger key = null;
-                try {
-                    key = getKey();
-                } catch (Exception e) {
-                    Toast.makeText(mContext,"fail",Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-                String plainText = x.decrypt(Base64Utils.decode(msg[1]),key);
-                Intent intent = new Intent(ScanActivity.this, PayActivity.class);
-                intent.putExtra("goodsInfo",plainText);
-                startActivity(intent);
-            }else {
-                scanResult.setText(resultString);
-            }
+            Toast.makeText(ScanActivity.this, "Scan 123!", Toast.LENGTH_SHORT).show();
+//            String []msg=resultString.split("#@%");//mingwen数组存储存储密文
+//            if(msg[0].equals("size")){
+//                SM2 x = new SM2();
+//                BigInteger key = null;
+//                try {
+//                    key = getKey();
+//                } catch (Exception e) {
+//                    Toast.makeText(mContext,"fail",Toast.LENGTH_SHORT).show();
+//                    e.printStackTrace();
+//                }
+//                String plainText = x.decrypt(Base64Utils.decode(msg[1]),key);
+//                Intent intent = new Intent(ScanActivity.this, PayActivity.class);
+//                intent.putExtra("goodsInfo",plainText);
+//                startActivity(intent);
+//            }else {
+//                scanResult.setText(resultString);
+//            }
 
         }
     }
@@ -226,10 +221,4 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
         }
     };
 
-    protected BigInteger getKey() {
-        if (!flag){
-            SM2KeyString sm2KeyString = new Gson().fromJson(preference.getString("Key", ""),SM2KeyString.class);
-            return new BigInteger(sm2KeyString.getPrivateKeyStr());
-        } return null;
-    }
 }

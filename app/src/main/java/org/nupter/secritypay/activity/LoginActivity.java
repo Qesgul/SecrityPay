@@ -1,108 +1,88 @@
 package org.nupter.secritypay.activity;
 
-import android.annotation.TargetApi;
-import android.app.KeyguardManager;
 import android.content.Intent;
-import android.hardware.fingerprint.FingerprintManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.security.keystore.KeyGenParameterSpec;
-import android.security.keystore.KeyProperties;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.nupter.secritypay.BaseActivity;
 import org.nupter.secritypay.R;
-import org.nupter.secritypay.fragment.FingerprintDialogFragment;
+import org.nupter.secritypay.Utils.NetUtils;
 
-import java.security.KeyStore;
+import java.io.IOException;
 
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
+import butterknife.BindView;
+import okhttp3.Call;
+import okhttp3.Response;
+
 
 public class LoginActivity extends BaseActivity {
-
-    private static final String DEFAULT_KEY_NAME = "default_key";
-
-    KeyStore keyStore;
+    @BindView(R.id.login)
+    Button btn_login;
+    @BindView(R.id.register)
+    Button btn_register;
+    @BindView(R.id.username)
+    EditText username;
+    @BindView(R.id.password)
+    EditText password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (supportFingerprint()) {
-            initKey();
-            initCipher();
-        }
     }
 
     @Override
     protected int getContentViewResId() {
-        return R.layout.activity_login;
+        return R.layout.activity_login_code;
     }
 
-    public boolean supportFingerprint() {
-        if (Build.VERSION.SDK_INT < 23) {
-            Toast.makeText(this, "您的系统版本过低，不支持指纹功能", Toast.LENGTH_SHORT).show();
-            return false;
-        } else {
-            KeyguardManager keyguardManager = getSystemService(KeyguardManager.class);
-            FingerprintManager fingerprintManager = getSystemService(FingerprintManager.class);
-            if (!fingerprintManager.isHardwareDetected()) {
-                Toast.makeText(this, "您的手机不支持指纹功能", Toast.LENGTH_SHORT).show();
-                return false;
-            } else if (!keyguardManager.isKeyguardSecure()) {
-                Toast.makeText(this, "您还未设置锁屏，请先设置锁屏并添加一个指纹", Toast.LENGTH_SHORT).show();
-                return false;
-            } else if (!fingerprintManager.hasEnrolledFingerprints()) {
-                Toast.makeText(this, "您至少需要在系统设置中添加一个指纹", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        }
-        return true;
+    @Override
+    protected void initView(){
+
     }
 
-    @TargetApi(23)
-    private void initKey() {
-        try {
-            keyStore = KeyStore.getInstance("AndroidKeyStore");
-            keyStore.load(null);
-            KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
-            KeyGenParameterSpec.Builder builder = new KeyGenParameterSpec.Builder(DEFAULT_KEY_NAME,
-                    KeyProperties.PURPOSE_ENCRYPT |
-                            KeyProperties.PURPOSE_DECRYPT)
-                    .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-                    .setUserAuthenticationRequired(true)
-                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7);
-            keyGenerator.init(builder.build());
-            keyGenerator.generateKey();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    @Override
+    protected void initData(){
+
     }
 
-    @TargetApi(23)
-    private void initCipher() {
-        try {
-            SecretKey key = (SecretKey) keyStore.getKey(DEFAULT_KEY_NAME, null);
-            Cipher cipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/"
-                    + KeyProperties.BLOCK_MODE_CBC + "/"
-                    + KeyProperties.ENCRYPTION_PADDING_PKCS7);
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            showFingerPrintDialog(cipher);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    @Override
+    protected void initEvent(){
+        btn_login.setOnClickListener(new LoginListener());
+        btn_register.setOnClickListener(new RegisterListener());
+    }
+
+    class LoginListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            NetUtils netUtils = NetUtils.getInstance();
+            String url_register = url +"?username="+username.getText().toString()+"&password"+password.getText().toString();
+            netUtils.getDataAsynFromNet(url_register, new NetUtils.MyNetCall() {
+                @Override
+                public void success(Call call, Response response) throws IOException {
+                    String result = response.body().string();
+                    Toast.makeText(LoginActivity.this, "登录成功" , Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, SellerActivity.class);
+                    intent.putExtra("sm2Info",result);
+                    startActivity(intent);
+                    LoginActivity.this.finish();
+                }
+
+                @Override
+                public void failed(Call call, IOException e) {
+                    Toast.makeText(LoginActivity.this, "请求失败，请重新注册" , Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
-    private void showFingerPrintDialog(Cipher cipher) {
-        FingerprintDialogFragment fragment = new FingerprintDialogFragment();
-        fragment.setCipher(cipher);
-        fragment.show(getFragmentManager(), "fingerprint");
+    class RegisterListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        }
     }
-
-    public void onAuthenticated() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
 }

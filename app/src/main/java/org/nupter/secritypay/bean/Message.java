@@ -5,6 +5,7 @@ public class Message {
     private String price;
     private String name;
 
+
     public String getPrice() {
         return price;
     }
@@ -20,4 +21,5 @@ public class Message {
     public void setName(String name) {
         this.name = name;
     }
+
 }

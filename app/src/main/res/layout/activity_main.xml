@@ -5,29 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/view_main_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_value_100"
         android:layout_alignParentTop="true"
         android:background="@mipmap/profile_theme_bg_mitsuha"
-        android:fitsSystemWindows="true"
-        android:orientation="horizontal">
+        android:fitsSystemWindows="true">
 
         <TextView
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_centerInParent="true"
             android:shadowColor="@color/color_000000"
+            android:text="二维码支付系统"
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="3"
             android:textColor="@android:color/white"
-            android:textSize="20dp" />
+            android:textSize="36dp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <Button
         android:layout_marginTop="@dimen/dp_value_70"

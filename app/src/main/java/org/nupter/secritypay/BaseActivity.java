@@ -3,7 +3,6 @@ package org.nupter.secritypay;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,16 +19,11 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity{
     protected Context mContext;
-    protected SharedPreferences preference;
-    protected SharedPreferences.Editor editor;
-    protected Boolean flag;
-
+    public static final String url= "http://192.168.31.188:8080/Login/Login";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        preference = getSharedPreferences("User", Context.MODE_PRIVATE);
-        flag = preference.getBoolean("firststart", true);
         setPermission();
         setNotificationBar();
         setViewLayout();

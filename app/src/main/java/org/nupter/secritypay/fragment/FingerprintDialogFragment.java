@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.nupter.secritypay.R;
-import org.nupter.secritypay.activity.LoginActivity;
+import org.nupter.secritypay.activity.FingerActivity;
 
 import javax.crypto.Cipher;
 
@@ -27,7 +27,7 @@ public class FingerprintDialogFragment extends DialogFragment {
 
     private Cipher mCipher;
 
-    private LoginActivity mActivity;
+    private FingerActivity mActivity;
 
     private TextView errorMsg;
 
@@ -43,7 +43,7 @@ public class FingerprintDialogFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mActivity = (LoginActivity) getActivity();
+        mActivity = (FingerActivity) getActivity();
     }
 
     @Override
