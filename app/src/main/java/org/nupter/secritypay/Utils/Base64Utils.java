@@ -97,7 +97,7 @@ public class Base64Utils {
             do {
                 b3 = data[i++];
                 if (b3 == 61) {
-                    return sb.toString().getBytes("iso8859-1");
+                    return sb.toString().getBytes("UTF-16");
                 }
                 b3 = base64DecodeChars[b3];
             } while (i < len && b3 == -1);

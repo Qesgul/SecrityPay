@@ -1,5 +1,6 @@
 package org.nupter.secritypay.activity;
 
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
@@ -15,14 +16,17 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
+import org.bouncycastle.math.ec.ECPoint;
 import org.nupter.secritypay.BaseActivity;
 import org.nupter.secritypay.R;
+import org.nupter.secritypay.crypto.SM2;
 import org.nupter.secritypay.zxing.camera.CameraManager;
 import org.nupter.secritypay.zxing.decoding.InactivityTimer;
 import org.nupter.secritypay.zxing.decoding.ScanActivityHandler;
 import org.nupter.secritypay.zxing.view.ViewfinderView;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Vector;
 
 import butterknife.BindView;
@@ -42,6 +46,7 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
     private boolean vibrate;
     @BindView(R.id.scan_result_textView)
     TextView scanResult;
+    SM2.Signature signature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,27 +111,32 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
         if (resultString.equals("")||resultString.equals(null)) {
             Toast.makeText(ScanActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(ScanActivity.this, "Scan 123!", Toast.LENGTH_SHORT).show();
-//            String []msg=resultString.split("#@%");//mingwen数组存储存储密文
-//            if(msg[0].equals("size")){
-//                SM2 x = new SM2();
-//                BigInteger key = null;
-//                try {
-//                    key = getKey();
-//                } catch (Exception e) {
-//                    Toast.makeText(mContext,"fail",Toast.LENGTH_SHORT).show();
-//                    e.printStackTrace();
-//                }
-//                String plainText = x.decrypt(Base64Utils.decode(msg[1]),key);
-//                Intent intent = new Intent(ScanActivity.this, PayActivity.class);
-//                intent.putExtra("goodsInfo",plainText);
-//                startActivity(intent);
-//            }else {
-//                scanResult.setText(resultString);
-//            }
+            String []msg=resultString.split("#");
+            getSign(msg[2]);
+            if(msg[0].equals("Size")&&signature!=null){
+                SM2 x = new SM2();
+                ECPoint PublicKey = x.getPubKey(msg[3]);
+                if(x.verify(msg[1],signature,msg[0],PublicKey)){
+                    Intent intent = new Intent(ScanActivity.this, PayActivity.class);
+                    intent.putExtra("goodsInfo",msg[4]);
+                    startActivity(intent);
+                }else Toast.makeText(mContext,"签名验证失败",Toast.LENGTH_SHORT).show();
+            }else {
+                scanResult.setText(resultString);
+            }
 
         }
     }
+    public void getSign(String sign){
+        String []msg=sign.split(",");;
+		try {
+			BigInteger r = new BigInteger(msg[0],16);
+			BigInteger s = new BigInteger(msg[1],16);
+			signature = new SM2.Signature(r,s);
+		} catch (RuntimeException e) {
+			return;
+		}
+	}
 
     private void initCamera(SurfaceHolder surfaceHolder) {
         try {

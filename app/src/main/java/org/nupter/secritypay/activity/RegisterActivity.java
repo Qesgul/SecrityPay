@@ -5,12 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.nupter.secritypay.BaseActivity;
 import org.nupter.secritypay.R;
-import org.nupter.secritypay.Utils.Base64Utils;
 import org.nupter.secritypay.Utils.NetUtils;
+import org.nupter.secritypay.Utils.Util;
 import org.nupter.secritypay.bean.SM2KeyPair;
 import org.nupter.secritypay.bean.SM2User;
 import org.nupter.secritypay.crypto.SM2;
@@ -78,16 +77,16 @@ public class RegisterActivity extends BaseActivity {
                 public void success(Call call, Response response) throws IOException {
                     String result = response.body().string();
                     if(result!=null&&result.equals("success")){
-                        Toast.makeText(RegisterActivity.this, "注册成功" , Toast.LENGTH_SHORT).show();
+                        ShowToast("注册成功");
                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                         startActivity(intent);
                         RegisterActivity.this.finish();
-                    }else Toast.makeText(RegisterActivity.this, "请求失败，请重新注册" , Toast.LENGTH_SHORT).show();
+                    }else  ShowToast("请求失败，请重新注册");
                 }
 
                 @Override
                 public void failed(Call call, IOException e) {
-                    Toast.makeText(RegisterActivity.this, "请求失败，请重新注册" , Toast.LENGTH_SHORT).show();
+                    ShowToast("请求失败，请重新注册");
                 }
             });
         }
@@ -102,7 +101,7 @@ public class RegisterActivity extends BaseActivity {
         sm2User.setIDA(IDA);
         sm2User.setM(M);
         sm2User.setSignature(signature.toString());
-        sm2User.setPublicKeyStr(Base64Utils.encode(keys.getPublicKey().getEncoded(false)));
+        sm2User.setPublicKeyStr(Util.bytesToHex1(keys.getPublicKey().getEncoded(false)));
         sm2User.setPrivateKeyStr(String.valueOf(keys.getPrivateKey()));
     }
 }

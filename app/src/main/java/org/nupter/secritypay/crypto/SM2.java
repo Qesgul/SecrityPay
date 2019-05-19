@@ -3,6 +3,7 @@ package org.nupter.secritypay.crypto;
 import org.bouncycastle.crypto.params.ECDomainParameters;
 import org.bouncycastle.math.ec.ECCurve;
 import org.bouncycastle.math.ec.ECPoint;
+import org.nupter.secritypay.Utils.Util;
 import org.nupter.secritypay.bean.SM2KeyPair;
 
 import java.io.ByteArrayOutputStream;
@@ -437,6 +438,31 @@ public class SM2 {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static byte[] hexString2byte(String hexString) {
+		if (null == hexString || hexString.length() % 2 != 0 || hexString.contains("null")) {
+			return null;
+		}
+		byte[] bytes = new byte[hexString.length() / 2];
+		for (int i = 0; i < hexString.length(); i += 2) {
+			bytes[i / 2] = (byte) (Integer.parseInt(hexString.substring(i, i + 2), 16) & 0xff);
+		}
+		return bytes;
+	}
+	/**
+	 * 字符串转公钥
+	 *
+	 * @param text
+	 * @return
+	 */
+	public ECPoint getPubKey(String text) {
+//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		baos.w
+//		byte buffer[] = new byte[16];
+//		buffer = Base64Utils.decode(text);
+//		return curve.decodePoint(buffer);
+		return curve.decodePoint(Util.toBytes(text));
 	}
 
 	/**

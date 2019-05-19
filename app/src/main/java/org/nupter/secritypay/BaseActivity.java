@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import org.nupter.secritypay.titlebar.StatusBarUtil;
 import org.nupter.secritypay.titlebar.SystemBarTintManager;
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity{
     protected Context mContext;
-    public static final String url= "http://192.168.31.188:8080/Login/Login";
+    public static final String url= "http://248u5s3930.wicp.vip:19074/Login/Login";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,5 +85,16 @@ public abstract class BaseActivity extends AppCompatActivity{
         return R.color.transparent;
     }
 
+    protected void ShowToast(final String text){
+        new Thread(){//创建一个新的线程
+            public void run(){
+                try {
+                    Toast.makeText(mContext,text,Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
 
 }
