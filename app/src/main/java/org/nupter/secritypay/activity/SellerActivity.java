@@ -32,6 +32,7 @@ public class SellerActivity extends BaseActivity {
     @BindView(R.id.img_QRcore)
     ImageView img_QRcore;
 	String sm2User;
+    String tv_seller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,9 @@ public class SellerActivity extends BaseActivity {
     protected void initData(){
 		Intent intent = getIntent();
 		sm2User = intent.getStringExtra("sm2Info");
+		String []msg=sm2User.split("#");
+		tv_seller = msg[1];
+		msg_seller.setText(tv_seller);
     }
 
     @Override
